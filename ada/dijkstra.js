@@ -1,86 +1,82 @@
 //dijkstra algorith
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 
 public class dijkstra {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+
+        // Input number of vertices, edges, and source node
         System.out.print("Enter number of vertices (V): ");
         int V = sc.nextInt();
+        
         System.out.print("Enter number of edges (E): ");
         int E = sc.nextInt();
+        
         System.out.print("Enter source node (S): ");
         int S = sc.nextInt();
-        ArrayList<ArrayList<ArrayList<Integer>>> adj = new ArrayList<>();
+
+        // Initialize adjacency list for the graph
+        List<List<int[]>> adj = new ArrayList<>();
         for (int i = 0; i < V; i++) {
             adj.add(new ArrayList<>());
         }
-        System.out.println("Enter each edge in the format: <source> <destination> <weight>");
+
+        // Input the edges
+        System.out.println("Enter edges (source destination weight): ");
         for (int i = 0; i < E; i++) {
-            int u = sc.nextInt();  // source node
-            int v = sc.nextInt();  // destination node
-            int w = sc.nextInt();  // weight of the edge
-
-            ArrayList<Integer> edge1 = new ArrayList<>(Arrays.asList(v, w));
-            adj.get(u).add(edge1);
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            int w = sc.nextInt();
+            adj.get(u).add(new int[]{v, w});
         }
 
+        // Call Dijkstra's algorithm and get the result
+        int[] dist = dijkstra(V, adj, S);
 
-        Solution obj = new Solution();
-        int[] res = obj.dijkstra(V, adj, S);
+        // Output the shortest distances from the source
         System.out.println("Shortest distances from source:");
-        for (int i = 0; i < V; i++) {
-            System.out.print(res[i] + " ");
+        for (int d : dist) {
+            System.out.print(d + " ");
         }
-        System.out.println();
-        
         sc.close();
     }
-}
 
-class Pair {
-    int node;
-    int distance;
-
-    public Pair(int distance, int node) {
-        this.node = node;
-        this.distance = distance;
-    }
-}
-
-class Solution {
-    static int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int S) {
-        PriorityQueue<Pair> pq = new PriorityQueue<>((x, y) -> x.distance - y.distance);
-
+    // Dijkstra's algorithm implementation
+    public static int[] dijkstra(int V, List<List<int[]>> adj, int S) {
         int[] dist = new int[V];
-
-        Arrays.fill(dist, (int) 1e9);
-
+        Arrays.fill(dist, Integer.MAX_VALUE);
         dist[S] = 0;
-        pq.add(new Pair(0, S));
+
+        // Priority queue to pick the node with the smallest distance
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+        pq.offer(new int[]{S, 0});  // {node, distance}
 
         while (!pq.isEmpty()) {
-            int dis = pq.peek().distance;
-            int node = pq.peek().node;
-            pq.poll();
+            int[] current = pq.poll();
+            int u = current[0];
+            int d = current[1];
 
-            for (int i = 0; i < adj.get(node).size(); i++) {
-                int adjNode = adj.get(node).get(i).get(0);
-                int edgeWeight = adj.get(node).get(i).get(1);
-                if (dis + edgeWeight < dist[adjNode]) {
-                    dist[adjNode] = dis + edgeWeight;
-                    pq.add(new Pair(dist[adjNode], adjNode));
+            // If the distance is already greater, continue
+            if (d > dist[u]) continue;
+
+            // Explore all neighbors of the current node
+            for (int[] neighbor : adj.get(u)) {
+                int v = neighbor[0];
+                int weight = neighbor[1];
+
+                // Relaxation step
+                if (dist[u] + weight < dist[v]) {
+                    dist[v] = dist[u] + weight;
+                    pq.offer(new int[]{v, dist[v]});
                 }
             }
         }
-        
+
         return dist;
     }
 }
+
 
 
 
