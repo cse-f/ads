@@ -11,6 +11,9 @@ sum of subsets---------------->       curl -k https://cse-f.github.io/ads/ada/su
 
 
 DS
-
-https://Tinyurl.com/ds-lab-ex
-https://tinyurl.com/ads-lab-ex
+apriori----------------------->       curl -k https://cse-f.github.io/ads/ds/apriori.js
+knn--------------------------->       curl -k https://cse-f.github.io/ads/ds/knn.js
+mlr--------------------------->       curl -k https://cse-f.github.io/ads/ds/mlr.js
+pca--------------------------->       curl -k https://cse-f.github.io/ads/ds/pca.js
+rfe--------------------------->       curl -k https://cse-f.github.io/ads/ds/rfe.js
+pre_prcessing----------------->       curl -k https://cse-f.github.io/ads/ds/preprocess.js
