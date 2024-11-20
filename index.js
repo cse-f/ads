@@ -11,3 +11,6 @@ sum of subsets---------------->       curl -k https://cse-f.github.io/ads/ada/su
 
 
 DS
+
+https://Tinyurl.com/ds-lab-ex
+https://tinyurl.com/ads-lab-ex
